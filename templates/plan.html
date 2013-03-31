@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% for post in contacts %}
+
+	<div id="post">
+        <div class="post-left">
+            <div class="group">
+                <p>{{ post.created|date }}</p>
+                <p>{{ post.created|date:"l" }}</p>
+                <p class="focus">{{ post.created|date:"P" }}</p>
+            </div>
+        </div>
+        
+        <div class="post-right">
+            <div class="post-title">
+                <!-- <h1>
+                    <a href="/archive/{{ post.id }}">{{ post.title }}</a>
+                </h1> -->
+            </div>
+            
+            <div class="post-content">
+                <a href="/plan/{{ post.id }}"><pre>{{ post.content|safe }}</pre></a>
+            </div>
+        </div>
+        <div class="clear-both"></div>
+    </div>
+	
+{% endfor %}
+
+
+	{% if contacts.number %}
+		<table>
+			<tr>
+				{% if contacts.has_previous %}
+					<td><a href="?page={{ contacts.previous_page_number }}">上一页</a></td>
+				{% endif %}
+
+				<td> 第 {{ contacts.number }} 页，共 {{ contacts.paginator.num_pages }}页</td>
+
+				{% if contacts.has_next  %}
+					<td><a href="?page={{ contacts.next_page_number }}">下一页</a></td>
+				{% endif %}
+				<form action="." method="get">
+				<td>  到第 </td>
+				<td><input name="page" class="input-small" type="text" size="2"></td>
+				<td>页</td>
+				<td><input type="submit" value="跳转"></td>
+				</form>
+			</tr>
+		</table>
+	{% endif %}
+
+
+	<br>
+	<div style="text-align: left; padding-left:120px">
+		
+	<form action="" method="POST"> {% csrf_token %}
+		<!-- <input type="textarea" name="content"> -->
+		<textarea cols="30" rows="5" name="content">
+		</textarea>
+		<input type="submit" value="Create">
+	</form>
+		
+	</div>
+{% endblock %}
+
+{% block js %}
+	<script type="text/javascript">
+		tinyMCE.init({
+        	'mode' : "textareas",
+        	'theme' : "simple",
+        	'width': 820,
+        	'height': 300,
+    	});
+	</script>
+{% endblock %}
+
+{% block on_ready %}
+
+
+
+{% endblock %}

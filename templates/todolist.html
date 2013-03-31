@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}todo list{% endblock %}
+
+{% block content %}
+<div style="padding-left:200px">
+	<ul>
+		<p>重要且紧急:</p>
+		{% for todo in todos_1 %}
+		<li>{{ todo.content }}</li>
+		{% endfor %}
+	</ul>
+	<br>
+	<ul>
+		<p>重要但不紧急:</p>
+		{% for todo in todos_2 %}
+		<li>{{ todo.content }}</li>
+		{% endfor %}
+	</ul>
+	<br>
+	<ul>
+		<p>不重要但紧急:</p>
+		{% for todo in todos_3 %}
+		<li>{{ todo.content }}</li>
+		{% endfor %}
+	</ul>
+	<br>
+	<ul>
+		<p>不重要且不紧急:</p>
+		{% for todo in todos_4 %}
+		<li>{{ todo.content }}</li>
+		{% endfor %}
+	</ul>
+	<br><br>
+	<ul>
+		<p>已经完成的:</p>
+		{% for todo in dones %}
+		<li>{{ todo.content }}</li>
+		{% endfor %}
+	</ul>
+</div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Gallerys{% endblock %}
+
+{% block content %}
+		<ul>
+			{% for gallery in galleries %}
+			<li>
+				<h3><a href="{{ gallery.id }}">{{ gallery.title }}</a></h3>
+				<a href="{{ gallery.latest_photo.base_url }}" class="img">
+					{# TODO: Fix the image resize error #}
+					<img src="/{{ gallery.latest_photo.original }}" alt="{{ gallery.latest_photo.title }}" width="200" height="200">
+				</a>
+				<p><em>({{ gallery.photo_count }})</em> {{ gallery.description_truncate }}</p>
+				<div class="date"><p>{{ gallery.modified|date:"F Y" }}</p></div>
+			</li>
+			{% endfor %}
+		</ul>
+	
+{% endblock %}

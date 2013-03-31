@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}
+用户登录
+{% endblock %}
+{% block head %}
+用户登录
+{% endblock %}
+{% block content %}
+{% if form.errors %}
+<ul class="errorlist">
+    <li style="background-color: red">您输入的用户名或者密码错误！请重新输入。</li>
+</ul>
+{% endif %}
+<form method="post" action=".">{% csrf_token %}
+    <table class="noframe">
+           <tr>
+               <td align="right">用户名：</td>
+               <td>{{ form.username }}</td>
+           </tr>
+           <tr>
+               <td align="right">密码：</td>
+               <td>{{ form.password }}</td>
+               <td><a href="/accounts/password/reset/">忘记密码</a>
+                   <input type="hidden" name="next" value="{{ next }}">
+               </td>
+           </tr>
+           <tr>
+               <td colspan="2" align="center">
+                   <input type="submit" value="登录">
+               </td>
+           </tr>
+    </table>
+
+</form>
+{% endblock %}

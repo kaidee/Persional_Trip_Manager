@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+
+	<div id="post">
+        <div class="post-left">
+            <div class="group">
+                <p>{{ archive_instance.created|date }}</p>
+                <p>{{ archive_instance.created|date:"l" }}</p>
+                <p class="focus">{{ archive_instance.created|date:"P" }}</p>
+            </div>
+        </div>
+        
+        <div class="post-right">
+            <div class="post-title">
+                <h1>
+                    {{ archive_instance.title }}
+                </h1>
+            </div>
+            
+            <div class="post-content">
+                <pre>{{ archive_instance.content|safe }}</pre>
+            </div>
+        </div>
+        <a class="btn success" href="{% url trips.views.archive_edit archive_instance.id %}">编辑</a>
+        <a class="btn danger" href="/archive/delete/{{archive_instance.id}}">删除</a>
+        <div class="clear-both"></div>
+    </div>
+	
+
+{% endblock %}

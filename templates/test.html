@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<p>pppp</p>
+{% endblock %}
+
+{% block on_ready %}
+	$("p").click(function(){
+  	$(this).hide();
+  	});
+{% endblock %}
