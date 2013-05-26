@@ -6,10 +6,15 @@ Persional Trip Manager Demo
 ## Requirements
 
 Django>=1.4
+
 django-userena
+
 easy-thumbnails
+
 django-bootstrap
+
 jquery-fileupload
+
 TinyMCE
 
 ## 系统功能
