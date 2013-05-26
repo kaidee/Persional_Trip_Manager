@@ -1,7 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+<div class="page-header">
+	<div style="margin-left: 660px">
+	<form class="form-search" action="/plan/search/" method="GET">
+	  <input type="text" class="input-medium search-query" value="Search..." onfocus="if (value =='Search...'){value =''}" onblur="if (value ==''){value='Search...'}" name="s" id="s">
+	  <button type="submit" class="btn">Search</button>
+	</form>
+	</div>
+</div>
+
 {% for post in contacts %}
+
+
 
 	<div id="post">
         <div class="post-left">
@@ -13,14 +25,8 @@
         </div>
         
         <div class="post-right">
-            <div class="post-title">
-                <!-- <h1>
-                    <a href="/archive/{{ post.id }}">{{ post.title }}</a>
-                </h1> -->
-            </div>
-            
             <div class="post-content">
-                <a href="/plan/{{ post.id }}"><pre>{{ post.content|safe }}</pre></a>
+                <pre><a href="{% url plan_detail post.id %}">{{ post.content|safe }}</a></pre>
             </div>
         </div>
         <div class="clear-both"></div>
@@ -42,10 +48,14 @@
 					<td><a href="?page={{ contacts.next_page_number }}">下一页</a></td>
 				{% endif %}
 				<form action="." method="get">
-				<td>  到第 </td>
-				<td><input name="page" class="input-small" type="text" size="2"></td>
-				<td>页</td>
-				<td><input type="submit" value="跳转"></td>
+					<td>  到第 </td>
+					<td><input name="page" class="input-small" type="text" size="2"></td>
+					<td>页</td>
+					<td>
+					<div style="padding-bottom:12px">
+						<input type="submit" value="跳转" class="btn">
+					</div>
+				</td>
 				</form>
 			</tr>
 		</table>
@@ -53,16 +63,16 @@
 
 
 	<br>
+	{% if this_path == '/plan/' %}
 	<div style="text-align: left; padding-left:120px">
-		
-	<form action="" method="POST"> {% csrf_token %}
-		<!-- <input type="textarea" name="content"> -->
-		<textarea cols="30" rows="5" name="content">
-		</textarea>
-		<input type="submit" value="Create">
-	</form>
-		
+		<form action="" method="POST"> {% csrf_token %}
+			<textarea cols="30" rows="5" name="content"> </textarea>
+			<div style="padding-top:15px">
+				<input type="submit" value="提交" class="btn btn-primary">
+			</div>
+		</form>
 	</div>
+	{% endif %}
 {% endblock %}
 
 {% block js %}
@@ -74,10 +84,18 @@
         	'height': 300,
     	});
 	</script>
+	<script src="/static/js/jquery.scrollUp.min.js"></script>
 {% endblock %}
 
 {% block on_ready %}
-
-
-
+             $.scrollUp({
+                  scrollName: 'scrollUp', // Element ID
+                  topDistance: '300', // Distance from top before showing element (px)
+                  topSpeed: 300, // Speed back to top (ms)
+                  animation: 'fade', // Fade, slide, none
+                  animationInSpeed: 200, // Animation in speed (ms)
+                  animationOutSpeed: 200, // Animation out speed (ms)
+                  scrollText: '', // Text for element
+                  activeOverlay: false  // Set CSS color to display scrollUp active point, e.g '#00FFFF'
+            });
 {% endblock %}

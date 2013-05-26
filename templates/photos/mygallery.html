@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Gallerys{% endblock %}
+{% load thumbnail %}
+{% block content %}
+	<div class="page-header">
+		<h1>我的相册</h1>
+	</div>
+			<ul>
+			{% for gallery in galleries %}
+			<li>
+				<h3>
+					<a href="{% url manage gallery.id %}">{{ gallery.title }}</a>
+				</h3>
+				<p><em>({{ gallery.photo_count }})</em> {{ gallery.description }}
+					<div class=" btn-new">
+						<a href="{% url gallery_edit gallery.id %}" class="btn btn-success">编辑相册</a>
+						<a href="{% url manage gallery.id %}" class="btn btn-primary">管理相册</a>
+						<a href="{% url gallery_del gallery.id %}" class="btn btn-danger" onclick="return confirm('您确定需要删除该相册？删除后将无法恢复')">删除相册</a>
+					</div>
+				</p>
+				<div class="date" style="border-bottom: 1px solid #eee;padding-bottom: 30px;">
+					<p>{{ gallery.modified|date:"F Y" }}</p>
+				</div>
+
+				
+			</li>
+			{% endfor %}
+		</ul>
+	
+{% endblock %}

@@ -3,11 +3,11 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 
-from userena.models import UserenaLanguageBaseProfile
+from userena.models import UserenaBaseProfile
 
 import datetime
 
-class Profile(UserenaLanguageBaseProfile):
+class Profile(UserenaBaseProfile):
     """ Default profile """
     GENDER_CHOICES = (
         (1, _('Male')),
@@ -18,16 +18,16 @@ class Profile(UserenaLanguageBaseProfile):
                                 unique=True,
                                 verbose_name=_('user'),
                                 related_name='profile') 
-    real_name = models.CharField(_('Real name'), max_length=10, blank=True, null=True)
-    department = models.CharField(_('Department'), max_length=50, blank=True, null=True)
-    company = models.CharField(_('Company'), max_length=100, blank=True, null=True)
+    # real_name = models.CharField(_('Real name'), max_length=10, blank=True, null=True)
+    # department = models.CharField(_('Department'), max_length=50, blank=True, null=True)
+    # company = models.CharField(_('Company'), max_length=100, blank=True, null=True)
     gender = models.PositiveSmallIntegerField(_('gender'),
                                               choices=GENDER_CHOICES,
                                               blank=True,
                                               null=True)
     website = models.URLField(_('website'), blank=True, verify_exists=True)
     location =  models.CharField(_('location'), max_length=255, blank=True)
-    birth_date = models.DateField(_('birth date'), blank=True, null=True)
+    # birth_date = models.DateField(_('birth date'), blank=True, null=True)
     about_me = models.TextField(_('about me'), blank=True)
 
     @property

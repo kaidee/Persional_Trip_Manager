@@ -2,40 +2,213 @@
 {% block title %}todo list{% endblock %}
 
 {% block content %}
-<div style="padding-left:200px">
-	<ul>
-		<p>重要且紧急:</p>
-		{% for todo in todos_1 %}
-		<li>{{ todo.content }}</li>
-		{% endfor %}
-	</ul>
-	<br>
-	<ul>
-		<p>重要但不紧急:</p>
-		{% for todo in todos_2 %}
-		<li>{{ todo.content }}</li>
-		{% endfor %}
-	</ul>
-	<br>
-	<ul>
-		<p>不重要但紧急:</p>
-		{% for todo in todos_3 %}
-		<li>{{ todo.content }}</li>
-		{% endfor %}
-	</ul>
-	<br>
-	<ul>
-		<p>不重要且不紧急:</p>
-		{% for todo in todos_4 %}
-		<li>{{ todo.content }}</li>
-		{% endfor %}
-	</ul>
-	<br><br>
-	<ul>
-		<p>已经完成的:</p>
-		{% for todo in dones %}
-		<li>{{ todo.content }}</li>
-		{% endfor %}
-	</ul>
+<div id="">
+<div id="todo">
+	<div class="todo-top">
+		<div class="todo-top-left">
+			<ul>
+				<div class="todo-title">
+					<h1>
+						很重要-很紧急<div class="btn-new">
+						<button class="btn btn-success" onclick="javascript:todo_add(1)">
+						<i class="icon-plus"></i>NEW
+						</button></div>
+					</h1>
+				</div>
+
+				{% for todo in todos_1 %}
+
+				<div id="list_{{todo.id}}">
+					<li>
+						{{ todo.content }}
+						<a href="javascript:todo_remove({{todo.id}})" id="todo_remove_{{todo.id}}">
+							<i class="icon-remove"></i>
+						</a>
+					</li>
+				</div>
+
+				{% endfor %}
+
+				<div id="todo_list_1"></div>
+			</ul>
+		</div>
+
+		<div class="todo-top-right">
+		<ul>
+			<div class="todo-title">
+				<h1>
+					很重要-不紧急<div class="btn-new">
+					<button class="btn btn-success" onclick="javascript:todo_add(2)">
+					<i class="icon-plus"></i>NEW
+					</button></div>
+				</h1>
+			</div>
+
+			{% for todo in todos_2 %}
+
+			<div id="list_{{todo.id}}">
+				<li>
+					{{ todo.content }}
+					<a href="javascript:todo_remove({{todo.id}})" id="todo_remove_{{todo.id}}">
+							<i class="icon-remove"></i>
+						</a>
+				</li>
+			</div>
+
+			{% endfor %}
+
+			<div id="todo_list_2"></div>
+		</ul>
+		</div>
+	</div>
+
+	<div class="todo-middle">
+		<div class="todo-bottom-left">
+		<ul>
+			<div class="todo-title">
+				<h1>
+					不重要-很紧急<div class="btn-new">
+					<button class="btn btn-success" onclick="javascript:todo_add(3)">
+					<i class="icon-plus"></i>NEW
+					</button></div>
+				</h1>
+			</div>
+			
+			{% for todo in todos_3 %}
+
+			<div id="list_{{todo.id}}">
+				<li>
+					{{ todo.content }}
+					<a href="javascript:todo_remove({{todo.id}})" id="todo_remove_{{todo.id}}">
+							<i class="icon-remove"></i>
+						</a>
+				</li>
+			</div>
+
+			{% endfor %}
+
+			<div id="todo_list_3"></div>
+		</ul>
+		</div>
+		
+		<div class="todo-bottom-right">
+			<ul>
+				<div class="todo-title">
+					<h1>
+						不重要-不紧急<div class="btn-new">
+						<button class="btn btn-success" onclick="javascript:todo_add(4)">
+						<i class="icon-plus"></i>NEW
+						</button></div>
+					</h1>
+				</div>
+				
+				{% for todo in todos_4 %}
+
+				<div id="list_{{todo.id}}">
+					<li>
+						{{ todo.content }}
+						<a href="javascript:todo_remove({{todo.id}})" id="todo_remove_{{todo.id}}">
+								<i class="icon-remove"></i>
+							</a>
+					</li>
+				</div>
+
+				{% endfor %}
+
+				<div id="todo_list_4"></div>
+			</ul>
+		</div>
+	</div>
+
+	<div class="todo-bottom">
+		<div class="todo-has-done">
+			<ul>
+				<div class="todo-title">
+					<h1>
+						已经完成的 
+						
+					</h1>
+				</div>
+
+				{% for todo in dones %}
+
+				<div id="list_done_{{todo.id}}">
+					<li>
+						{{ todo.content }}
+						<a href="javascript:todo_del({{todo.id}})" id="todo_del_{{todo.id}}">
+							<i class="icon-remove"></i>
+						</a>
+					</li>
+				</div>
+
+				{% endfor %}
+
+				<div id="todo_done"></div>
+				
+			</ul>
+		</div>
+	</div>
 </div>
+</div>
+
+<script type="text/javascript">
+	function todo_remove (id) {
+		var done_lists = $('#todo_done');
+		var list_item = '#list_' + id;
+		// alert(list_item);
+		$(list_item).hide();
+		$.get('{% url dashboard %}',{ id:id, temp:Math.random()}, function(mydata) {
+			// alert(mydata);
+			done_lists.html(mydata);
+		});
+	}
+
+	function todo_add (priority) {
+		var todo_new = prompt("请输入新待办事项：","看什么书，敲什么代码！");
+		var list_item = '#todo_list_' + priority;
+		var container = $(list_item);
+		if (todo_new!=null && todo_new!="") {
+			$.post('{% url todo_add %}',{
+				content:todo_new, priority:priority, temp:Math.random()
+			},
+				function(ret) {
+					// alert(ret);
+					if (ret=='1') {
+						container.html('<li>'+todo_new+'</li>');
+					} else{
+						alert('您在开玩笑么么么！');
+					};
+				}
+				)
+		} else{
+			alert('你确定输入内容了？');
+		};
+	}
+
+	function todo_del (id) {
+		// alert(id);
+		var list_item = '#list_done_' + id;
+		$(list_item).hide();
+		$.get('{% url todo_del %}',{ id:id, temp:Math.random()}, function(ret) {
+			// alert(mydata);
+			// done_lists.html(mydata);
+			if(ret=='1'){
+			    alert("删除成功！");
+			}
+			else if(ret=="2"){
+			    alert("你点错地方了么？");
+			}
+			else{
+			    alert("系统错误！");
+			}
+		});
+	}
+
+</script>
+
 {% endblock %}
+
+{% block js %}
+
+{% endblock %}
+

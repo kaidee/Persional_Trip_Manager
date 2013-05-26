@@ -4,8 +4,6 @@
 from django.db import models
 from django.contrib import admin
 
-# Create your models here.
-
 class Post(models.Model):
 	title = models.CharField('标题',max_length=150)
 	content = models.TextField('内容')
@@ -19,9 +17,6 @@ class Post(models.Model):
 	class Meta:
 		ordering = ['-created',]
 
-	# def save(self, *args, **kwargs):
-	# 	super(Post,self).save()
-
 class Plan(models.Model):
 	title = models.CharField(max_length=150, blank=True, null=True)
 	content = models.TextField()
@@ -34,8 +29,6 @@ class Plan(models.Model):
 
 	class Meta:
 		ordering = ['-created',]
-		
-		
 
 class PostAdmin(admin.ModelAdmin):
 	list_display = ('title', 'owner', 'modified')

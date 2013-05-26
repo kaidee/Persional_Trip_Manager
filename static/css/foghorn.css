@@ -9,7 +9,7 @@ h2 {
 h3 {
     font-weight: normal;
     font-style: italic;
-    margin-top:3em;
+    margin-top:2em;
     }
 p {
     margin-top:0;
@@ -40,6 +40,8 @@ a {
     }
 a img {
     border:none;
+    /*height: 80px;*/
+    /*width: 80px;*/
     }
 h1 a, h1 a:hover {
     color: #333;

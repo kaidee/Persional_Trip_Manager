@@ -5,15 +5,14 @@
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+# DEBUG = False
 
-import logging
-logging.basicConfig(
-level = logging.DEBUG,
-format = '%(asctime)s %(levelname)s %(message)s',)
+# import logging
+# logging.basicConfig(
+# level = logging.DEBUG,
+# format = '%(asctime)s %(levelname)s %(message)s',)
 
-import os
-HERE = os.path.dirname(os.path.abspath(__file__))
-HERE = os.path.join(HERE, '../')
+
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
@@ -23,7 +22,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': './datas/mydatabase.sqlite',                      # Or path to database file if using sqlite3.
+        'NAME': './datas/myappdb.sqlite',                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -56,28 +55,39 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = ''
+import os
+HERE = os.path.dirname(os.path.abspath(__file__))
+HERE = os.path.join(HERE, '../')
+
+MEDIA_ROOT = os.path.join(HERE,'media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = os.path.join(HERE,'static')
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
-
+ADMIN_MEDIA_PREFIX = '/static/admin/'
 # Additional locations of static files
 STATICFILES_DIRS = (
-    os.path.join(HERE, 'static/'),
-    os.path.join(HERE, 'media/'),
-    os.path.join(HERE, 'mugshots/'),
+    ("css", os.path.join(STATIC_ROOT,'css')),
+    ("js", os.path.join(STATIC_ROOT,'js')),
+    ("font", os.path.join(STATIC_ROOT,'font')),
+    ("images", os.path.join(STATIC_ROOT,'images')),
+    ("img", os.path.join(STATIC_ROOT,'img')),
+    ("plugin", os.path.join(STATIC_ROOT,'plugin')),
+    # os.path.join(HERE, 'static/'),
+    # os.path.join(HERE, '/media/'),
+    # os.path.join(os.path.dirname(os.path.dirname(__file__)),'static').replace('\\','/'),
+    # os.path.join(HERE, 'mugshots/'),
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -102,7 +112,7 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -137,12 +147,14 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'todos',
     'trips',
-    'debug_toolbar',
+    # 'debug_toolbar',
     'userena',
+    'userena.contrib.umessages',
     'guardian',
     'easy_thumbnails',
     'profiles',
     'photos',
+    'bootstrap',
     # 'crispy_forms',
     # 'photologue',
     # 'south',
@@ -167,9 +179,11 @@ LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
 
 # userena在用户注册后不需要执行激活操作(默认为True)
-USERENA_ACTIVATION_REQUIRED = True
+USERENA_ACTIVATION_REQUIRED = False
+USERENA_SIGNIN_AFTER_SIGNUP = True #user will logged in after a successful sign up
 USERENA_DISABLE_PROFILE_LIST = True
-USERENA_MUGSHOT_SIZE = 140
+USERENA_MUGSHOT_GRAVATAR = True
+# USERENA_MUGSHOT_SIZE = 140
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
@@ -177,6 +191,17 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'name@gmail.com'
 EMAIL_HOST_PASSWORD = 'password'
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'avatar': {'size': (50, 50), 'crop': True},
+        'thumbnail': {'size': (80, 80), 'crop': True},
+        'thumbnail_nocrop': {'size': (90, 90), 'crop': False},
+        'small': {'size': (220, 220), 'crop': True},
+        'small_nocrop': {'size': (220, 220), 'crop': False},
+        'large': {'size': (480, 480), 'crop': True},
+    },
+}
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

@@ -2,6 +2,9 @@
 
 {% block content %}
 	<p>pppp</p>
+	<p>{{ request.path }}</p>
+	<p>{{ request.get_full_path  }}</p>
+	<p>{{ hh }}</p>
 {% endblock %}
 
 {% block on_ready %}

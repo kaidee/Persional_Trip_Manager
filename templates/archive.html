@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+<div class="page-header">
+	<div style="margin-left: 660px">
+	<form class="form-search" action="/archive/search/" method="GET">
+	  <input type="text" class="input-medium search-query" value="Search..." onfocus="if (value =='Search...'){value =''}" onblur="if (value ==''){value='Search...'}" name="s" id="s">
+	  <button type="submit" class="btn">Search</button>
+	</form>
+	</div>
+</div>
+
 {% for post in contacts %}
 
 	<div id="post">
@@ -20,14 +30,13 @@
             </div>
             
             <div class="post-content">
-                <pre>{{ post.content|safe }}</pre>
+                {{ post.content|safe }}
             </div>
         </div>
         <div class="clear-both"></div>
     </div>
 	
 {% endfor %}
-
 
 	{% if contacts.number %}
 		<table>
@@ -42,25 +51,32 @@
 					<td><a href="?page={{ contacts.next_page_number }}">下一页</a></td>
 				{% endif %}
 				<form action="." method="get">
-				<td>  到第 </td>
-				<td><input name="page" class="input-small" type="text" size="2"></td>
-				<td>页</td>
-				<td><input type="submit" value="跳转"></td>
+					<td>  到第 </td>
+					<td><input name="page" class="input-small" type="text" size="2"></td>
+					<td>页</td>
+					<td>
+						<div style="padding-bottom:15px">
+							<input type="submit" value="跳转" class="btn">
+						</div>
+					</td>
 				</form>
 			</tr>
 		</table>
 	{% endif %}
 
-
 	<br>
+	{% ifequal this_path '/archive/' %}
+
 	<div style="text-align: left; padding-left:120px">
-		
 	<form action="" method="POST"> {% csrf_token %}
 		{{ form }}
-		<input type="submit" value="Create">
+		<div style="padding-top:15px">
+			<input type="submit" value="提交" class="btn btn-primary">
+		</div>
 	</form>
 		
 	</div>
+	{% endifequal %}
 {% endblock %}
 
 {% block js %}
@@ -75,7 +91,5 @@
 {% endblock %}
 
 {% block on_ready %}
-
-
 
 {% endblock %}

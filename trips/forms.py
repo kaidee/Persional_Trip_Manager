@@ -2,16 +2,6 @@
 # Author:kaidee
 
 from django import forms
-# from trips.models import *
-
-
-
-# class TinyMce(forms.Textarea):
-# 	"""docstring for TinyMce"""
-# 	class Media:
-# 		js = ('js/tiny_mce/tiny_mce.js',
-# 			'js/textareas.js',)
-
 
 class PostForm(forms.Form):
 	title = forms.CharField(label='',max_length=150, 

@@ -1,19 +1,45 @@
+{% load i18n %}
 <div id="header">
     <div id="header-top">
         <div id="blog-title">
             Persional Trip Manager
         </div>
+
         <div id="blog-sub">
-            I err therefore I am
+            Those who cannot remember the past are condemned to repeat it.
         </div>
     </div>
     <div id="nav">
         <ul>
+            <li><a href="/todo">TODO</a></li>
             <li><a href="/plan/">PLAN</a></li>
             <li><a href="/archive">ARCHIVE</a></li>
             <li><a href="/photos">PHOTO</a></li>
-            <li><a href="/photos/upload/">DATE</a></li>
-            <li><a href="/todos">TODO</a></li>
+            <li><a href="http://www.hao123.com/rili" target="_blank">DATE</a></li>
+            
+            <li>
+                {% if user.is_authenticated %}
+                    <span>
+                        <a href="{% url userena_profile_detail user.username %}">{{user.username|upper}}</a>
+                    </span>
+                    <ul>
+                        <li>
+                            <a href="{% url userena_profile_detail user.username %}">{% trans "View profile" %}</a>
+                        </li>
+                        <li>
+                            <a href="{% url userena_profile_edit user.username %}">{% trans "Edit details" %}</a>
+                        </li>
+                        <li>
+                            <a href="{% url userena_password_change user.username %}">{% trans "Change password" %}</a>
+                        </li>
+                        <li>
+                            <a href="{% url userena_signout %}">LOGOUT</a>
+                        </li>
+                    </ul>
+                {% else %}
+                    <span>ANONYMOUS</span>
+                {% endif %}
+            </li>
         </ul>
     </div>
 </div>

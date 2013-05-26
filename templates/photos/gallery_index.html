@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Gallerys{% endblock %}
+{% load thumbnail %}
+{% block content %}
+	<div class=" btn-new">
+		<a href="{% url manage %}" class="btn btn-primary">管理相册</a>
+		<a href="{% url add_gallery %}" class="btn btn-success">添加相册</a>
+	</div>
+			<ul>
+			{% for gallery in galleries %}
+			<li>
+				<h3>
+					<a href="{% url gallery_view gallery.id %}">{{ gallery.title }}</a>
+				</h3>
+				<p><em>({{ gallery.photo_count }})</em> {{ gallery.description_truncate }}</p>
+				<div class="date">
+					<p>{{ gallery.modified|date:"F Y" }}</p>
+				</div>
+
+				{% for photo in gallery.latest_photo %}
+					<a href="{% url gallery_view gallery.id %}" title="{{ photo.title }}" data-gallery="gallery">
+						<img src="{{ photo.image.thumbnail_nocrop.url }}" alt="{{ photo.title }}" >
+					</a>
+				{% endfor %}
+			</li>
+			{% endfor %}
+		</ul>
+	
+{% endblock %}

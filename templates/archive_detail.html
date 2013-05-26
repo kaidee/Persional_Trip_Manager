@@ -8,6 +8,10 @@
                 <p>{{ archive_instance.created|date:"l" }}</p>
                 <p class="focus">{{ archive_instance.created|date:"P" }}</p>
             </div>
+            <div style="">
+                <a class="btn btn-success" href="{% url trips.views.archive_edit archive_instance.id %}">编辑</a>
+                <a class="btn btn-danger" href="/archive/delete/{{archive_instance.id}}">删除</a>
+            </div>
         </div>
         
         <div class="post-right">
@@ -18,12 +22,12 @@
             </div>
             
             <div class="post-content">
-                <pre>{{ archive_instance.content|safe }}</pre>
+                {{ archive_instance.content|safe }}
             </div>
         </div>
-        <a class="btn success" href="{% url trips.views.archive_edit archive_instance.id %}">编辑</a>
-        <a class="btn danger" href="/archive/delete/{{archive_instance.id}}">删除</a>
-        <div class="clear-both"></div>
+        <div class="clear-both">
+          
+        </div>
     </div>
 	
 

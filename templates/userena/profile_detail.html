@@ -1,0 +1,44 @@
+{% extends 'userena/base_userena.html' %}
+{% load i18n %}
+
+{% block title %}
+  {{ profile.user.username }}的帐号
+{% endblock %}
+
+{% block content_title %}
+  <h1>
+    {{ profile.user.username }}的帐号
+  </h2>
+{% endblock %}
+
+{% block content %}
+  <div class="content">
+
+    {% comment %}Dirty hack. Will use django-guardian in the future.{% endcomment %}
+    {% if user.username == profile.user.username %}
+      <ul id="profile-nav" class="nav nav-tabs">
+        <li class="active"><a href="{% url userena_profile_detail user.username %}">{% trans "View profile" %}</a></li>
+        <li><a href="{% url userena_profile_edit user.username %}">{% trans "Edit details" %}</a></li>
+        <li><a href="{% url userena_password_change user.username %}">{% trans "Change password" %}</a></li>
+        <li><a href="{% url userena_email_change user.username %}">{% trans "Change email" %}</a></li>
+      </ul>
+    {% endif %}
+
+    <div id="u_details">
+      <div class="mugshot">
+        <img src="{{ profile.get_mugshot_url }}" alt="{% trans "Your mugshot" %}" />
+        {% if user.is_authenticated and user.username != profile.user.username %}
+          <a href="{% url userena_umessages_compose_to profile.user.username %}" class="btn" style="margin: 6px 8px">发私信</a>
+        {% endif %}
+      </div>
+      <div class="info">
+        <p><strong>加入时间</strong> {{ profile.user.date_joined|date:"Y-m-d H:i" }} </p>
+        <p><strong>最近登录</strong> {{ profile.user.last_login|date:"Y-m-d H:i" }} </p>
+        <p><strong>{% trans "Website" %}</strong> <a href="{{ profile.website }}">{{ profile.website }}</a></p>
+        <p><strong>{% trans "Location" %}</strong> {{ profile.location }}</p>
+        <p><strong>{% trans "About me" %}</strong><br />{{ profile.about_me }}</p>
+      </div>
+    </div>
+    <hr />
+  </div>
+{% endblock %}

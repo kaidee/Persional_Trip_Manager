@@ -8,23 +8,17 @@
                 <p>{{ plan_instance.created|date:"l" }}</p>
                 <p class="focus">{{ plan_instance.created|date:"P" }}</p>
             </div>
+                <a class="btn btn-success" href="{% url trips.views.plan_edit plan_instance.id %}">编辑</a>
+                <a class="btn btn-danger" href="/plan/delete/{{plan_instance.id}}">删除</a>
         </div>
         
         <div class="post-right">
-            <!-- <div class="post-title">
-                <h1>
-                    {{ archive_instance.title }}
-                </h1>
-            </div> -->
-            
             <div class="post-content">
                 <pre>{{ plan_instance.content|safe }}</pre>
             </div>
         </div>
-        <a class="btn success" href="{% url trips.views.plan_edit plan_instance.id %}">编辑</a>
-        <a class="btn danger" href="/plan/delete/{{plan_instance.id}}">删除</a>
-        <div class="clear-both"></div>
+        <div class="clear-both">
+        </div>
     </div>
 	
-
 {% endblock %}
