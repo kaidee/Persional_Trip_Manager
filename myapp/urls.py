@@ -23,13 +23,6 @@ urlpatterns = patterns('',
     url(r'^favicon\.ico$', 'django.views.generic.simple.redirect_to', {'url': '/static/images/favicon.ico'}),
 )
 
-# if settings.DEBUG:
-#     urlpatterns += patterns('',
-#         url(r'^media/(?P<path>.*)$', 'django_dynamic_media_serve.serve', {  #这里有编码问题，无法获取中文名图片
-#             'document_root': settings.MEDIA_ROOT,
-#         }),
-#    )
-
 if settings.DEBUG:
     urlpatterns += patterns('',
         url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
