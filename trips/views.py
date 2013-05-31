@@ -6,10 +6,11 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
-from trips.models import Post, Plan
 from django.db.models import Q
-from trips.forms import PostForm, PlanForm
 from django import forms
+
+from trips.models import Post, Plan
+from trips.forms import PostForm, PlanForm
 
 ITEMS_PER_PAGE = 5
 
@@ -27,21 +28,13 @@ def archive(request):
 	except (EmptyPage, InvalidPage):
 		contacts = paginator.page(paginator.num_pages)
 
+	form = PostForm(request.POST or None)
 	if request.method == 'POST':
-		form = PostForm(request.POST)
+		
 		if form.is_valid():
-			newpost = Post(title=form.cleaned_data['title'],
-				content=form.cleaned_data['content'],
-				owner=request.user,
-				)
-			newpost.save()
-			# return HttpResponse(newpost.id)
-			return HttpResponseRedirect("/archive/" + str(newpost.id) +"/")
+			posts = form.save(owner=request.user)
 
-		else:
-			raise Http404
-	else:
-		form = PostForm()
+			return HttpResponseRedirect("/archive/" + str(posts.id) +"/")
 
 	return render_to_response('archive.html', {
 		'posts': posts, 'contacts': contacts, 'form': form, 'this_path': request.path
@@ -77,7 +70,7 @@ def archive_edit(request, id):
 		archive = get_object_or_404(Post, id=id)
 		form = PostForm(initial={'title':archive.title, 'content':archive.content }, auto_id=False)
 		return render_to_response("archive_edit.html",{
-			"form": form
+			"form": form, 'archive': archive
 			}, context_instance=RequestContext(request)
 			)
 
@@ -129,11 +122,7 @@ def plan(request):
 				owner=request.user,
 				)
 			newplan.save()
-			# return HttpResponse(newpost.id)
 			return HttpResponseRedirect("/plan/" + str(newplan.id) +"/")
-	else:
-		pass
-		# form = forms.CharField(widget=forms.Textarea(attrs={'placeholder': '内容'}), required=True)
 
 	return render_to_response('plan.html', {
 		'plans': plans, 'contacts': contacts,'this_path': request.path

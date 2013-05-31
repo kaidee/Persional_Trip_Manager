@@ -1,11 +1,14 @@
+# coding:utf-8
+# Author:kaidee
+
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.template import RequestContext
-from todos.models import Todo, get_objects
 from django.http import HttpResponse
 
-from django.views.decorators.csrf import csrf_exempt
+from todos.models import Todo, get_objects
 
 def base(request):
 	return render_to_response('base.html')
@@ -15,18 +18,14 @@ def dashboard(request):
 	if request.is_ajax():
 		ctx = dict()
 		id = request.GET.get("id")
-		print 'id:',id
 		todo = get_object_or_404(Todo, id=int(id))
-		# print todo
 		todo.is_done = True
 		todo.save()
 		
-		# response['Content-Type']="text/javascript"
 		mydata = '<li>' + todo.content + '</li>'
-		# response.write(mydata)
 		response=HttpResponse(mydata)
-		print mydata
 		response['Cache-Control'] = 'no-cache'
+
 		return response
 	else:
 		user = request.user
@@ -63,7 +62,6 @@ def todo_add(request):
 		else:
 			ret = 2
 		response=HttpResponse()
-		# response['Content-Type']="text/javascript"
 		response.write(ret)
 		response['Cache-Control'] = 'no-cache'
 		return response
@@ -84,4 +82,5 @@ def todo_del(request):
 		ret = 2
 	response=HttpResponse()
 	response.write(ret)
+	
 	return response

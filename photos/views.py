@@ -3,23 +3,26 @@
 
 from django.shortcuts import get_object_or_404, render_to_response
 from django.core.paginator import QuerySetPaginator, InvalidPage
-from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.template import RequestContext
-from django.utils import simplejson
-from django.contrib.auth.models import User
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.urlresolvers import reverse
+
+from django.conf import settings
+from django.utils import simplejson
+from django.template import RequestContext
+from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseRedirect, Http404
 
-from django.core.files.uploadedfile import SimpleUploadedFile
 from photos.models import Gallery, Photo
 from photos.forms import PhotoForm, GalleryForm
-from django.conf import settings
+
 import Image
 import ImageFile
 
 MAX_FILE_SIZE = 30000000	# 图片最大容量值
 MIN_FILE_SIZE = 1000	# 图片最新容量值
+
 #上传图片数量
 MAXNUMBEROFFILES = 30
 
@@ -42,19 +45,11 @@ def gallery_index(request):
 
 @login_required
 def add_gallery(request):
+	form = GalleryForm(request.POST or None)
 	if request.method == 'POST':
-		form = GalleryForm(request.POST)
 		if form.is_valid():
-			user = request.user
-			title = form.cleaned_data['title']
-			description = form.cleaned_data['description']
-			new_gallery = Gallery(title=title, description=description, owner=user)
-			new_gallery.save()
+			form.save(owner=request.user)
 			return HttpResponseRedirect('/photos/')
-		else:
-			raise Http404
-	else:
-		form = GalleryForm()
 		
 	return render_to_response("photos/add_gallery.html",{
 		"form": form,
@@ -141,17 +136,12 @@ def multi_upload(request, album_id):
 			)
 		image.save()
 		response_data["url"] = image.image.url
-		# response_data['thumbnail_url'] = image.original.url# + "?height=80&width=80"
 		response_data['thumbnail_url'] = image.image['thumbnail'].url
 		print 'url:',image.image['thumbnail'].url
 		#删除链接
 		response_data["delete_url"] = "/photos/del/" + str(image.id)
-		# print 'path:',request.path
 		response_data["delete_type"] = "GET"
 		response_data = simplejson.dumps({"files":[response_data]})
-		# response_type = "text/html"
-		# print 'response_data2: ',response_data
-		# print 'response_mimetype2: ',response_mimetype(request)
 
 		return HttpResponse(response_data, mimetype=response_mimetype(request))
 
@@ -221,17 +211,16 @@ def gallery_edit(request, pk=0):
 		if form.is_valid():
 			form.save()
 			return HttpResponseRedirect(reverse('manage'))
-	# ctx['form'] = form
 	return render_to_response("photos/add_gallery.html",{
-		"form": form,
+		"form": form, 'gallery': gallery
 		}, context_instance=RequestContext(request)
 		)
 
 @login_required
 def gallery_del(request, pk):
 	gallery = get_object_or_404(Gallery, pk=pk)
-	# print 'gallery.owner:',gallery.owner
 	if gallery.owner != request.user:
 		return HttpResponse(u'您没有权限执行该操作')
 	gallery.delete()
+	
 	return HttpResponseRedirect(reverse('manage'))

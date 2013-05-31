@@ -1,12 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
-	<h4>标题：</h4>
+	<div class="page-header">
+		<h1>修改文章</h1>
+	</div>
 
-	<form action="" method="POST">{% csrf_token %}
-		{{ form }}
+	<form action="" method="POST" class="">
+		<fieldset>
+		{% csrf_token %}
+		{{ form.as_div }}
 		<div style="padding-top:15px">
 			<input type="submit" value="Save" class="btn btn-success">
+			{% if archive %}
+			<a class="btn" href="{% url archive_detail archive.pk %}">取消</a>
+			{% else %}
+			<a class="btn" href="{% url archive %}">取消</a>
+			{% endif %}
 		</div>
+	</fieldset>
 	</form>
 {% endblock %}
 

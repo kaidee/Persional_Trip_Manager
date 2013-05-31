@@ -5,6 +5,9 @@
 {% block content %}
 	<div class="page-header">
 		<h1>我的相册</h1>
+		<div style="margin-left: 890px">
+		<a href="{% url photo_gallery_index %}" class="btn">返回</a>
+		</div>
 	</div>
 			<ul>
 			{% for gallery in galleries %}

@@ -3,7 +3,6 @@ from django.db import models
 from django.contrib import admin
 
 PRIORITY_CHOICES = [(1, '重要且紧急'), (2, '重要不紧急'), (3, '紧急不重要'), (4, '不重要不紧急')]
-# PRIORITY_CHOICES = [(1, 'aa'), (2, 'bb'), (3, 'cc'), (4, 'dd')]
 
 class Todo(models.Model):
 	"""docstring for Todo"""
@@ -17,7 +16,7 @@ class Todo(models.Model):
 		return u'%s %s' % (self.content, self.owner)
 
 	class Meta:
-		ordering = ['priority',]
+		ordering = ['timestamp',]
 
 admin.site.register(Todo)
 

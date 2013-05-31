@@ -3,20 +3,6 @@ Persional Trip Manager Demo
 
 这是我的一个基于Django开发的个人出行管理系统的毕业设计
 
-## Requirements
-
-Django>=1.4
-
-django-userena
-
-easy-thumbnails
-
-django-bootstrap
-
-jquery-fileupload
-
-TinyMCE
-
 ## 系统功能
 
 * Todos
@@ -31,3 +17,13 @@ TinyMCE
 	* 浏览相片
 * Userena
 	* 使用userena管理账户
+
+## Requirements
+
+Django>=1.4
+
+django-userena
+
+easy-thumbnails
+
+django-bootstrap

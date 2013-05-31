@@ -3,11 +3,12 @@
 
 from django.db import models
 from django.contrib import admin
+from django.contrib.auth.models import User
 
 class Post(models.Model):
-	title = models.CharField('标题',max_length=150)
-	content = models.TextField('内容')
-	owner = models.ForeignKey('auth.User')
+	title = models.CharField(u'标题',max_length=150)
+	content = models.TextField(u'内容')
+	owner = models.ForeignKey(User)
 	created = models.DateTimeField(auto_now_add=True)
 	modified = models.DateTimeField(auto_now=True)
 
@@ -20,7 +21,7 @@ class Post(models.Model):
 class Plan(models.Model):
 	title = models.CharField(max_length=150, blank=True, null=True)
 	content = models.TextField()
-	owner = models.ForeignKey('auth.User')
+	owner = models.ForeignKey(User)
 	created = models.DateTimeField(auto_now_add=True)
 	modified = models.DateTimeField(auto_now=True)
 

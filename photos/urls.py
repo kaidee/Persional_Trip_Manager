@@ -2,7 +2,6 @@
 # Author:kaidee
 
 from django.conf.urls import *
-# from trips.views import *
 
 urlpatterns = patterns(('photos.views'),
 	url(r'^photos/$', view = 'gallery_index', name = 'photo_gallery_index'),

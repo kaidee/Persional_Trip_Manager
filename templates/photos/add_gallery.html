@@ -7,7 +7,15 @@
 			{{ form }}
 		
 		<tr>
-			<td colspan="2" align="right"><input type="submit" value="提交" class="btn btn-primary"/></td>
+			
+			<td colspan="2" align="right">
+				{% if gallery %}
+				<a class="btn" href="{% url manage %}">取消</a>
+				{% else %}
+				<a class="btn" href="{% url photo_gallery_index %}">取消</a>
+				{% endif %}
+				<input type="submit" value="提交" class="btn btn-primary"/>
+			</td>
 		</tr>
 		</form>
 	</table>

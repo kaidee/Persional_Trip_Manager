@@ -1,6 +1,7 @@
 ul {list-style: square;}
 a {text-decoration: none;}
-a:hover {text-decoration: underline;}
+a:hover {text-decoration: none;}
+/*a:hover {text-decoration: underline;}*/
 pre {font: 0.9em "monacoregular";}
 
 body {
@@ -84,6 +85,13 @@ body {
 #nav ul li a {
     color: #333;
     padding: 15px 5px;
+    /*text-decoration: underline;*/
+}
+
+#nav ul li a:hover {
+    /*color: #333;*/
+    /*padding: 15px 5px;*/
+    text-decoration: underline;
 }
 
 #nav ul li span {
