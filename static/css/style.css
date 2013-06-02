@@ -1,6 +1,6 @@
 ul {list-style: square;}
-a {text-decoration: none;}
-a:hover {text-decoration: none;}
+/*a {text-decoration: none;}*/
+/*a:hover {text-decoration: none;}*/
 /*a:hover {text-decoration: underline;}*/
 pre {font: 0.9em "monacoregular";}
 
@@ -229,6 +229,12 @@ body {
 
 .post-content a{
     color: #000;
+    text-decoration: none;
+}
+
+.post-content a:hover {
+    color: #000;
+    text-decoration: none;
 }
 
 

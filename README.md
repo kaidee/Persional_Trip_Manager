@@ -27,3 +27,5 @@ django-userena
 easy-thumbnails
 
 django-bootstrap
+
+#### 提供演示的超级管理员账号:kaaidee 密码:kaidee

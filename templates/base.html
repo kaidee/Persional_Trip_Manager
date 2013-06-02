@@ -29,7 +29,22 @@
     </div>
 </body>
 <script src="/static/js/jquery-1.9.1.js"></script>
-<script src="/static/js/tiny_mce/tiny_mce.js"></script>  
+<script src="/static/js/tiny_mce/tiny_mce.js"></script>
+<script src="/static/js/jquery.scrollUp.min.js"></script>
+<script>
+    $(function () {
+        $.scrollUp({
+                  scrollName: 'scrollUp', // Element ID
+                  topDistance: '300', // Distance from top before showing element (px)
+                  topSpeed: 300, // Speed back to top (ms)
+                  animation: 'fade', // Fade, slide, none
+                  animationInSpeed: 200, // Animation in speed (ms)
+                  animationOutSpeed: 200, // Animation out speed (ms)
+                  scrollText: '', // Text for element
+                  activeOverlay: false  // Set CSS color to display scrollUp active point, e.g '#00FFFF'
+            });
+    })
+</script> 
     {% block js %}  
         <!--这里插入具体页面引用的js库，或者js代码--> 
     {% endblock %}  
